@@ -62,8 +62,8 @@
                 // var apiKey = "&api_key=rU7iplINiN92By9DFqvb7E0px6rmGBgT";
 
                 // storing our giphy api url
-                var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + gif +
-                    "&api_key=rU7iplINiN92By9DFqvb7E0px6rmGBgT&limit=5";
+                var queryURL = "https://api.giphy.com/v1/gifs/search?q=" + gif +
+                    "&api_key=rU7iplINiN92By9DFqvb7E0px6rmGBgT&limit=10";
 
                 // Performing an AJAX GET request to our queryURL (makes a call)
                 $.ajax({
@@ -130,6 +130,7 @@
             // This function handles events where a gif button is clicked
             $("#add-gif").on("click", function (event) {
                 event.preventDefault();
+                
                 // This line grabs the input from the textbox
                 var gif = $("#gif-input").val().trim();
 
@@ -138,6 +139,7 @@
 
                 // Calling renderButtons which handles the processing of our gif array
                 renderButtons();
+                
             });
 
             // Adding a click event listener to all elements with a class of "gif-btn"
