@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 
+<!-- check pausing-gifs, cat-button, movie app -->
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0-11/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="reset.css">
+    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/reset.css">
 
     <title>Gifs</title>
 </head>
@@ -26,34 +28,69 @@
 
 
 
-    </div>
+        <div id="giv-display"></div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <script type="text/javascript">
-        // Variables
-        var apiKey = "rU7iplINiN92By9DFqvb7E0px6rmGBgT";
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            // gifs have to be still when appear (data-state still)
+            // gifs clicked on animate (data-state animate)
+            // type: gif, 
+            // images.   fixed.height.small.still (for still images) (<style> inline-style = width:  to change size)
+            // check class vid around 11:10 AM to 11:15 AM or time maker 1:10
 
-        var queryURL = "api.giphy.com/v1/gifs/search" + apiKey;
-        var gif = $(this).attr("");
+            // api key variable
+            var apiKey = "rU7iplINiN92By9DFqvb7E0px6rmGBgT";
+            // storing our giphy api url
+            var queryURL = "api.giphy.com/v1/gifs/search" + apiKey;
+
+            var gif = $(this).attr("");
 
 
-        function displayGif() {
+            function displayGif() {
 
-            // Creating an AJAX call for the specific Gif button being clicked
-            $.ajax({
-                url: queryURL,
-                method: "GET"
-            }).then(function (response) {
+                // Performing an AJAX GET request to our queryURL (makes a call)
+                $.ajax({
+                        url: queryURL,
+                        method: "GET"
+                    })
 
+                    //after the data from the AJAX request comes back (gets a callback)
+                    .then(function (response) {
+                        console.log(queryURL);
+                        console.log(response);
+
+                        // Creating a div to hold the Gifs
+                        // var gifDiv = $("<div class=>");
+
+                        // Retrieving the URL for the image
+                        // var imgURL = response.Poster;
+
+                        // Creating an element to hold the image
+                        // var image = $("<img>").attr("src", imgURL);
+
+                        // Appending the image
+                        // movieDiv.append(image);
+
+
+                        // Saving the image_original_url property (grabs from certain data structure)
+                        // var imageUrl = response.data.image_original_url;
+
+                        // creating and storaging an image tag
+                        // var catImage = $("<img>");
+
+                        // setting the catImage src attribute to imageURL
+                        // catImage.attr("src", imageUrl);
+                        // catImage.attr("alt", "cat image");
+
+                        // Prepending the catImage to the images div (pushes images down or right)
+                        // $("#images").prepend(catImage);
+
+
+                    });
             }
-
-            // Creating a div to hold the movie
-            var movieDiv = $("<div class='movie'>");
-
-
-            });
-    </script>
+        </script>
+    </div>
 </body>
 
 </html>
