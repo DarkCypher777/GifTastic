@@ -19,19 +19,18 @@
 
     <div class="conatiner">
         <div class=gif-buttons>
-            <button type="button" class="btn btn-success">Gif1</button>
-            <button type="button" class="btn btn-success">Gif2</button>
-            <button type="button" class="btn btn-success">Gif3</button>
-            <button type="button" class="btn btn-success">Gif4</button>
-            <button type="button" class="btn btn-success">Gif5</button>
+            <button data-gif="cat">Cat</button>
+            <button data-gif="dog">Dog</button>
+            <button data-gif="spooky">Spooky</button>
+            <button>Gif4</button>
+            <button>Gif5</button>
         </div>
 
-
-
-        <div id="giv-display"></div>
+        <div id="gif-display"></div>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
         <script type="text/javascript">
             // gifs have to be still when appear (data-state still)
             // gifs clicked on animate (data-state animate)
@@ -39,15 +38,20 @@
             // images.   fixed.height.small.still (for still images) (<style> inline-style = width:  to change size)
             // check class vid around 11:10 AM to 11:15 AM or time maker 1:10
 
-            // api key variable
-            var apiKey = "rU7iplINiN92By9DFqvb7E0px6rmGBgT";
-            // storing our giphy api url
-            var queryURL = "api.giphy.com/v1/gifs/search" + apiKey;
+            $("button").on("click", function () {
 
-            var gif = $(this).attr("");
+                // look at data structure for values
+                var gif = $(this).attr("data-gif");
+
+                // api key variable
+                // var apiKey = "&api_key=rU7iplINiN92By9DFqvb7E0px6rmGBgT";
+
+                // storing our giphy api url
+                var queryURL = "http://api.giphy.com/v1/gifs/search?q=" + gif +
+                    "&api_key=rU7iplINiN92By9DFqvb7E0px6rmGBgT&limit=10";
 
 
-            function displayGif() {
+                // function displayGif() {
 
                 // Performing an AJAX GET request to our queryURL (makes a call)
                 $.ajax({
@@ -60,35 +64,34 @@
                         console.log(queryURL);
                         console.log(response);
 
-                        // Creating a div to hold the Gifs
-                        // var gifDiv = $("<div class=>");
+                        // storing the data from the AJAX request in the results variable
+                        var results = response.data;
 
-                        // Retrieving the URL for the image
-                        // var imgURL = response.Poster;
+                        // Looping through each result item
+                        for (var i = 0; i < results.length; i++) {
 
-                        // Creating an element to hold the image
-                        // var image = $("<img>").attr("src", imgURL);
+                            // Creating and storing a div tag
+                            var gifDiv = $("<div>");
 
-                        // Appending the image
-                        // movieDiv.append(image);
+                            // Creating a paragraph tag with the result item's rating
+                            var p = $("<p>").text("Rating: " + results[i].rating);
 
+                            // Creating and storing an image tag
+                            var gifImage = $("<img>");
 
-                        // Saving the image_original_url property (grabs from certain data structure)
-                        // var imageUrl = response.data.image_original_url;
+                            // Setting the src attribute of the image to a property pulled off the result item
+                            gifImage.attr("src", results[i].images.fixed_height.url);
 
-                        // creating and storaging an image tag
-                        // var catImage = $("<img>");
+                            // Appending the paragraph and image tag to the animalDiv
+                            gifDiv.append(p);
+                            gifDiv.append(gifImage);
 
-                        // setting the catImage src attribute to imageURL
-                        // catImage.attr("src", imageUrl);
-                        // catImage.attr("alt", "cat image");
-
-                        // Prepending the catImage to the images div (pushes images down or right)
-                        // $("#images").prepend(catImage);
-
-
+                            // Prependng the animalDiv to the HTML page in the "#gifs-display" div
+                            $("#gif-display").prepend(gifDiv);
+                        }
                     });
-            }
+                // }
+            });
         </script>
     </div>
 </body>
