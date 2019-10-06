@@ -11,6 +11,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0-11/css/all.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
     <link rel="stylesheet" href="assets/css/reset.css">
+    <!-- <script src="assets/js/app.js"></script> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
     <title>Gifs</title>
 </head>
@@ -25,6 +28,7 @@
             <button type="button" class="btn btn-primary" data-gif="spooky">Spooky</button>
             <button type="button" class="btn btn-primary" data-gif="skeletons">Skeletons</button>
         </div> -->
+
         <!-- Rendered Buttons will get Dumped Here  -->
         <div id="buttons-view"></div>
 
@@ -38,24 +42,25 @@
             <input id="add-gif" type="submit" value="Find a gif">
         </form>
 
+        <!-- Where gifs appear -->
         <div id="gif-display"></div>
-
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <!-- <img src="#gif-diplay" data-still=""
+            data-animate="" data-state="still" class="gif">> -->
 
         <script type="text/javascript">
             // gifs have to be still when appear (data-state still)
             // gifs clicked on animate (data-state animate)
             // type: gif, 
             // images.   fixed.height.small.still (for still images) (<style> inline-style = width:  to change size)
-            // check class vid around 11:10 AM to 11:15 AM or time maker 1:10
+
 
             var gifs = ["cat", "dog", "bird,", "spooky", "skeletons"];
 
             // $("button").on("click", function () {
 
-                function displayGifInfo() {
-                // look at data structure for values
+
+            function displayGifInfo() {
+
                 var gif = $(this).attr("data-gif");
 
                 // api key variable
@@ -92,62 +97,90 @@
                             var gifImage = $("<img>");
 
                             // Setting the src attribute of the image to a property pulled off the result item
-                            gifImage.attr("src", results[i].images.fixed_height.url);
+                            gifImage.attr("src", results[i].images.fixed_height_small_still.url);
 
-                            // Appending the paragraph and image tag to the animalDiv
+                            // Appending the paragraph and image tag to the gifDiv
                             gifDiv.append(p);
                             gifDiv.append(gifImage);
 
-                            // Prependng the animalDiv to the HTML page in the "#gifs-display" div
+                            // Prependng the gifDiv to the HTML page in the "#gifs-display" div
                             $("#gif-display").prepend(gifDiv);
                         }
                     });
-                }
-
-            // Function for displaying gifs data
-            function renderButtons() {
-
-                // Deleting the gifs prior to adding new gif
-                // (this is necessary otherwise you will have repeat buttons)
-                $("#buttons-view").empty();
-
-                // Looping through the array of gifs
-                for (var i = 0; i < gifs.length; i++) {
-
-                    // Then dynamicaly generating buttons for each gif in the array
-                    // This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
-                    var a = $("<button>");
-                    // Adding a class of gif-btn to our button
-                    a.addClass("gif-btn");
-                    // Adding a data-attribute
-                    a.attr("data-gif", gifs[i]);
-                    // Providing the initial button text
-                    a.text(gifs[i]);
-                    // Adding the button to the buttons-view div
-                    $("#buttons-view").append(a);
-                }
             }
-            // This function handles events where a gif button is clicked
-            $("#add-gif").on("click", function (event) {
-                event.preventDefault();
-                
-                // This line grabs the input from the textbox
-                var gif = $("#gif-input").val().trim();
 
-                // Adding gif from the textbox to our array
-                gifs.push(gif);
+            // when gif loads should be still Not animated
+            // add function to animate and still when clicked
+            // if still change location from still to animate when clicked on
+            // if animate change location from animate to still
 
-                // Calling renderButtons which handles the processing of our gif array
+            // function clickAnimate() {
+
+            //     var onOff = $("#gif-diplay").on("click", ".button", function () {
+
+
+            //     });
+
+                // Function for displaying gifs data
+                function renderButtons() {
+
+                    // Deleting the gifs prior to adding new gif
+                    // (this is necessary otherwise you will have repeat buttons)
+                    $("#buttons-view").empty();
+
+                    // Looping through the array of gifs
+                    for (var i = 0; i < gifs.length; i++) {
+
+                        // Then dynamicaly generating buttons for each gif in the array
+                        // This code $("<button>") is all jQuery needs to create the beginning and end tag. (<button></button>)
+                        var a = $("<button>");
+                        // Adding a class of gif-btn to our button
+                        a.addClass("gif-btn");
+                        // Adding a data-attribute
+                        a.attr("data-gif", gifs[i]);
+                        // Providing the initial button text
+                        a.text(gifs[i]);
+                        // Adding the button to the buttons-view div
+                        $("#buttons-view").append(a);
+                    }
+                }
+                // This function handles events where a gif button is clicked
+                $("#add-gif").on("click", function (event) {
+                    event.preventDefault();
+
+                    // This line grabs the input from the textbox
+                    var gif = $("#gif-input").val().trim();
+
+                    // Adding gif from the textbox to our array
+                    gifs.push(gif);
+
+                    // Calling renderButtons which handles the processing of our gif array
+                    renderButtons();
+                });
+
+                // Adding a click event listener to all elements with a class of "gif-btn"
+                $(document).on("click", ".gif-btn", displayGifInfo);
+
+                // Calling the renderButtons function to display the intial buttons
                 renderButtons();
-                
-            });
 
-            // Adding a click event listener to all elements with a class of "gif-btn"
-            $(document).on("click", ".gif-btn", displayGifInfo);
+                // storage code
+                // <div id="gif-display" data-state="still" class="gif"></div>
 
-            // Calling the renderButtons function to display the intial buttons
-            renderButtons();
+                // var state = $(this).attr("data-state");
 
+                // if (state === "still") {
+                //     $(this).attr("src", $(this).attr("data-animate"));
+                //     $(this).attr("data-state", "animate");
+                // } else {
+                //     $(this).attr("src", $(this).attr("data-still"));
+                //     $(this).attr("data-state", "still");
+                // }
+
+                // $("#gif-diplay").on("click", ".button", function() {
+                // });
+                // Hey, I want you `#button-container` to listen up!
+                // When any of your children `.button`s get clicked, do stuff!
         </script>
     </div>
 </body>
