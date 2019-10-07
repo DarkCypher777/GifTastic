@@ -41,7 +41,8 @@ $(document).ready(function () {
                 method: "GET"
             })
             .then(function (response) {
-                console.log(this);
+                console.log(queryURL);
+                console.log(response);
 
                 var results = response.data;
                 for (var i = 0; i < results.length; i++) {
@@ -49,9 +50,9 @@ $(document).ready(function () {
                     var gifDiv = $("<div>");
                     var p = $("<p>").text("Rating: " + results[i].rating);
                     var gifImage = $("<img>");
-                    gifImage.attr("src", results[i].images.fixed_height_small_still.url);
-                    gifImage.attr("still-image", results[i].images.fixed_height_small_still.url);
-                    gifImage.attr("data-animate", results[i].images.fixed_height_small.url);
+                    gifImage.attr("src", results[i].images.fixed_height_still.url);
+                    gifImage.attr("still-image", results[i].images.fixed_height_still.url);
+                    gifImage.attr("data-animate", results[i].images.fixed_height.url);
                     gifImage.attr("data-state", "still");
                     gifImage.addClass("gif");
                     gifDiv.append(p);
